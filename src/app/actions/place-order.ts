@@ -15,6 +15,7 @@ export async function placeOrder(cartItems: CartItem[]) {
     throw new Error('Cannot place an order with an empty cart.');
   }
 
+  // The database name 'restaurant' should be part of the connection options.
   const client = new MongoClient(connectionString, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -25,7 +26,7 @@ export async function placeOrder(cartItems: CartItem[]) {
 
   try {
     await client.connect();
-    const db = client.db('restaurant'); // database name from connection string is used if not specified
+    const db = client.db('restaurant'); // Explicitly select the 'restaurant' database
     const orders = db.collection('orders');
     
     const orderData = {
@@ -52,6 +53,7 @@ export async function placeOrder(cartItems: CartItem[]) {
     }
     throw new Error('An unknown error occurred while placing the order.');
   } finally {
+    // Ensures that the client will close when you finish/error
     await client.close();
   }
 }
