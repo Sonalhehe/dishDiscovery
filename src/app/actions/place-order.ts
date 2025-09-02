@@ -1,7 +1,7 @@
 'use server';
 
 import type { CartItem } from '@/types';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
 export async function placeOrder(cartItems: CartItem[]) {
   const connectionString = process.env.MongoDbUri;
@@ -15,11 +15,17 @@ export async function placeOrder(cartItems: CartItem[]) {
     throw new Error('Cannot place an order with an empty cart.');
   }
 
-  const client = new MongoClient(connectionString);
+  const client = new MongoClient(connectionString, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+  });
 
   try {
     await client.connect();
-    const db = client.db('restaurant');
+    const db = client.db('restaurant'); // database name from connection string is used if not specified
     const orders = db.collection('orders');
     
     const orderData = {
@@ -36,11 +42,15 @@ export async function placeOrder(cartItems: CartItem[]) {
     const result = await orders.insertOne(orderData);
     
     console.log('Order placed successfully:', result.insertedId);
+    // The result from insertOne contains BSON types that are not directly serializable
     return JSON.parse(JSON.stringify({ success: true, orderId: result.insertedId }));
 
   } catch (error) {
     console.error('Failed to place order:', error);
-    throw new Error('Failed to connect to the database and place order.');
+    if (error instanceof Error) {
+        throw new Error(`Failed to place order: ${error.message}`);
+    }
+    throw new Error('An unknown error occurred while placing the order.');
   } finally {
     await client.close();
   }
