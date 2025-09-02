@@ -1,34 +1,15 @@
 'use server';
 
 import type { CartItem } from '@/types';
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export async function placeOrder(cartItems: CartItem[]) {
-  const connectionString = process.env.MongoDbUri;
-
-  if (!connectionString) {
-    console.error('MongoDbUri is not set in the environment variables.');
-    throw new Error('Database configuration is missing.');
-  }
-  
   if (!cartItems || cartItems.length === 0) {
     throw new Error('Cannot place an order with an empty cart.');
   }
 
-  // The database name 'restaurant' should be part of the connection options.
-  const client = new MongoClient(connectionString, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-  });
-
   try {
-    await client.connect();
-    const db = client.db('restaurant'); // Explicitly select the 'restaurant' database
-    const orders = db.collection('orders');
-    
     const orderData = {
       items: cartItems.map(item => ({
         id: item.id,
@@ -37,14 +18,13 @@ export async function placeOrder(cartItems: CartItem[]) {
         quantity: item.quantity,
       })),
       total: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
-      createdAt: new Date(),
+      createdAt: serverTimestamp(),
     };
 
-    const result = await orders.insertOne(orderData);
+    const docRef = await addDoc(collection(db, 'orders'), orderData);
     
-    console.log('Order placed successfully:', result.insertedId);
-    // The result from insertOne contains BSON types that are not directly serializable
-    return JSON.parse(JSON.stringify({ success: true, orderId: result.insertedId }));
+    console.log('Order placed successfully with ID: ', docRef.id);
+    return { success: true, orderId: docRef.id };
 
   } catch (error) {
     console.error('Failed to place order:', error);
@@ -52,8 +32,5 @@ export async function placeOrder(cartItems: CartItem[]) {
         throw new Error(`Failed to place order: ${error.message}`);
     }
     throw new Error('An unknown error occurred while placing the order.');
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
   }
 }
