@@ -2,6 +2,9 @@
 
 import type { CartItem } from '@/types';
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import { config } from 'dotenv';
+
+config(); // Load environment variables from .env file
 
 export async function placeOrder(cartItems: CartItem[]) {
   const connectionString = process.env.MongoDbUri;
