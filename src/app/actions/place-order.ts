@@ -4,10 +4,10 @@ import type { CartItem } from '@/types';
 import { MongoClient } from 'mongodb';
 
 export async function placeOrder(cartItems: CartItem[]) {
-  const connectionString = process.env.MONGO_DB_CONNECTION_STRING;
+  const connectionString = process.env.MongoDbUri;
 
   if (!connectionString) {
-    console.error('MONGO_DB_CONNECTION_STRING is not set in the environment variables.');
+    console.error('MongoDbUri is not set in the environment variables.');
     throw new Error('Database configuration is missing.');
   }
   
