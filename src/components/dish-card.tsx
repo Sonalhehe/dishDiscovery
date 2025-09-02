@@ -25,7 +25,7 @@ export function DishCard({ dish, onAddToCart }: DishCardProps) {
     <Card
       className={cn(
         "flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1",
-        isUnsuitable && "bg-neutral-100 opacity-60 grayscale"
+        isUnsuitable && "bg-muted/50 opacity-60 grayscale"
       )}
     >
       <CardHeader className="p-0">
@@ -40,10 +40,10 @@ export function DishCard({ dish, onAddToCart }: DishCardProps) {
         </div>
       </CardHeader>
       <CardContent className="p-4 flex-grow">
-        <CardTitle className="text-xl font-bold font-headline text-yellow-900 mb-1">
+        <CardTitle className="text-xl font-bold font-headline mb-1">
           {dish.name}
         </CardTitle>
-        <CardDescription className="text-yellow-800/80">
+        <CardDescription>
           {dish.description}
         </CardDescription>
       </CardContent>

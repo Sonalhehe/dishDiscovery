@@ -85,4 +85,32 @@ export const initialDishes: Dish[] = [
     description: "Warm chocolate cake with a gooey molten center, served with a scoop of vanilla bean ice cream. Contains gluten and dairy.",
     image: "https://picsum.photos/600/400?random=12",
   },
+  {
+    id: 13,
+    name: "Chicken Tikka Masala",
+    price: 22.5,
+    description: "Chunks of roasted marinated chicken in a spiced curry sauce. The sauce is usually creamy and orange-coloured. Contains dairy.",
+    image: "https://picsum.photos/600/400?random=13",
+  },
+  {
+    id: 14,
+    name: "Paneer Butter Masala",
+    price: 20.5,
+    description: "A rich and creamy dish of paneer (Indian cheese) in a tomato, butter and cashew sauce. Vegetarian. Contains dairy and nuts.",
+    image: "https://picsum.photos/600/400?random=14",
+  },
+  {
+    id: 15,
+    name: "Vegetable Samosas",
+    price: 9.0,
+    description: "Crispy pastry filled with spiced potatoes and peas, served with a tamarind chutney. Vegan. Contains gluten.",
+    image: "https://picsum.photos/600/400?random=15",
+  },
+  {
+    id: 16,
+    name: "Garlic Naan",
+    price: 5.0,
+    description: "Soft, leavened flatbread baked in a tandoor oven and brushed with garlic butter. Vegetarian. Contains gluten and dairy.",
+    image: "https://picsum.photos/600/400?random=16",
+  },
 ];

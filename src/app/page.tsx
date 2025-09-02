@@ -145,11 +145,11 @@ export default function Home() {
         <div className="flex flex-col items-center">
           <div className="flex justify-center items-center gap-4 mb-2">
             <Icons.logo className="h-12 w-12 text-primary" />
-            <h1 className="text-5xl font-bold font-headline tracking-tight text-yellow-900">
+            <h1 className="text-5xl font-bold font-headline tracking-tight">
               Dish Discovery
             </h1>
           </div>
-          <p className="text-lg text-yellow-800/80">
+          <p className="text-lg text-muted-foreground">
             Find the perfect meal that meets your dietary needs.
           </p>
         </div>
@@ -218,7 +218,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8">
           {isLoading
-            ? Array.from({ length: 12 }).map((_, i) => (
+            ? Array.from({ length: 16 }).map((_, i) => (
                 <div key={i} className="flex flex-col space-y-3">
                   <Skeleton className="h-[225px] w-full rounded-xl" />
                   <div className="space-y-2">
