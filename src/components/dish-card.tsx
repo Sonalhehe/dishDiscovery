@@ -9,14 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, ShoppingCart } from "lucide-react";
 
 interface DishCardProps {
   dish: FilteredDish;
+  onAddToCart: () => void;
 }
 
-export function DishCard({ dish }: DishCardProps) {
+export function DishCard({ dish, onAddToCart }: DishCardProps) {
   const isUnsuitable = dish.isSuitable === false;
 
   return (
@@ -45,21 +47,26 @@ export function DishCard({ dish }: DishCardProps) {
           {dish.description}
         </CardDescription>
       </CardContent>
-      <CardFooter className="flex justify-between items-center p-4 pt-0">
-        <Badge
-          variant="secondary"
-          className="text-lg font-semibold bg-amber-100 text-amber-800 border-amber-300"
-        >
-          ${dish.price.toFixed(2)}
-        </Badge>
-        {isUnsuitable && dish.problematicIngredients && (
-          <div className="flex items-center gap-2 text-sm text-destructive font-medium p-2 rounded-md bg-red-50 border border-red-200">
-            <AlertTriangle className="h-4 w-4 shrink-0" />
-            <span className="truncate">
-              May contain: {dish.problematicIngredients}
-            </span>
-          </div>
-        )}
+      <CardFooter className="flex flex-col items-stretch p-4 pt-0 gap-4">
+        <div className="flex justify-between items-center">
+          <Badge
+            variant="secondary"
+            className="text-lg font-semibold bg-amber-100 text-amber-800 border-amber-300"
+          >
+            ${dish.price.toFixed(2)}
+          </Badge>
+          {isUnsuitable && dish.problematicIngredients && (
+            <div className="flex items-center gap-2 text-sm text-destructive font-medium p-2 rounded-md bg-red-50 border border-red-200">
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              <span className="truncate">
+                May contain: {dish.problematicIngredients}
+              </span>
+            </div>
+          )}
+        </div>
+        <Button onClick={onAddToCart} disabled={isUnsuitable}>
+          <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+        </Button>
       </CardFooter>
     </Card>
   );
