@@ -6,7 +6,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export async function placeOrder(cartItems: CartItem[]) {
   if (!cartItems || cartItems.length === 0) {
-    throw new Error('Cannot place an order with an empty cart.');
+    return { success: false, error: 'Cannot place an order with an empty cart.' };
   }
 
   try {
@@ -27,10 +27,22 @@ export async function placeOrder(cartItems: CartItem[]) {
     return { success: true, orderId: docRef.id };
 
   } catch (error) {
-    console.error('Failed to place order:', error);
+    console.error('Detailed error placing order:', error);
+    let errorMessage = 'An unknown error occurred while placing the order.';
     if (error instanceof Error) {
-        throw new Error(`Failed to place order: ${error.message}`);
+        // Log the full error for server-side debugging
+        console.error(error.stack);
+        errorMessage = `Failed to place order: ${error.message}`;
     }
-    throw new Error('An unknown error occurred while placing the order.');
+    
+    // Also check for Firebase-specific error codes
+    if (typeof error === 'object' && error !== null && 'code' in error) {
+      const firebaseError = error as { code: string, message: string };
+      if (firebaseError.code === 'permission-denied') {
+        errorMessage = "Failed to place order due to database security rules. Please ensure Firestore rules allow writes to the 'orders' collection.";
+      }
+    }
+    
+    return { success: false, error: errorMessage };
   }
 }

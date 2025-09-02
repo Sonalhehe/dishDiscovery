@@ -86,18 +86,30 @@ export default function Home() {
   
   const handlePlaceOrder = async () => {
     try {
-      await placeOrder(cartItems);
-      toast({
-        title: "Order Placed!",
-        description: "Thank you for your order.",
-      });
-      setCartItems([]);
-      setIsCartOpen(false);
+      const result = await placeOrder(cartItems);
+      if (result.success) {
+        toast({
+          title: "Order Placed!",
+          description: "Thank you for your order.",
+        });
+        setCartItems([]);
+        setIsCartOpen(false);
+      } else {
+         toast({
+          title: "Order Failed",
+          description: result.error || "There was a problem placing your order. Please try again.",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       console.error("Failed to place order:", error);
+      let errorMessage = "There was a problem placing your order. Please try again.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       toast({
         title: "Order Failed",
-        description: "There was a problem placing your order. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
