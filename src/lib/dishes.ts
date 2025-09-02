@@ -57,4 +57,32 @@ export const initialDishes: Dish[] = [
     description: "A flaky, buttery croissant filled with a sweet almond paste and topped with sliced almonds and powdered sugar. Contains gluten, dairy, and nuts.",
     image: "https://picsum.photos/600/400?random=8",
   },
+  {
+    id: 9,
+    name: "Butter Chicken",
+    price: 23.0,
+    description: "Tender chicken in a mildly spiced, creamy tomato sauce. Served with basmati rice and naan bread. Contains dairy and gluten (naan).",
+    image: "https://picsum.photos/600/400?random=9",
+  },
+  {
+    id: 10,
+    name: "Sushi Platter",
+    price: 28.0,
+    description: "A selection of fresh nigiri and maki rolls, including tuna, salmon, and California rolls. Served with soy sauce, wasabi, and pickled ginger. Contains fish and soy.",
+    image: "https://picsum.photos/600/400?random=10",
+  },
+  {
+    id: 11,
+    name: "Ribeye Steak",
+    price: 35.0,
+    description: "A 12oz ribeye steak cooked to your liking, served with garlic mashed potatoes and seasonal vegetables. Gluten-free.",
+    image: "https://picsum.photos/600/400?random=11",
+  },
+  {
+    id: 12,
+    name: "Chocolate Lava Cake",
+    price: 11.0,
+    description: "Warm chocolate cake with a gooey molten center, served with a scoop of vanilla bean ice cream. Contains gluten and dairy.",
+    image: "https://picsum.photos/600/400?random=12",
+  },
 ];

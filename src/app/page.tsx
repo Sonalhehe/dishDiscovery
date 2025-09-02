@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { DishCard } from "@/components/dish-card";
 import { Icons } from "@/components/icons";
 import { MenuFilters } from "@/components/menu-filters";
@@ -10,9 +11,19 @@ import type { FilteredDish, CartItem } from "@/types";
 import { filterMenuItems } from "@/ai/flows/filter-menu-items-by-dietary-restrictions";
 import { CartSheet } from "@/components/cart-sheet";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, LogOut } from "lucide-react";
 import { placeOrder } from "@/app/actions/place-order";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/auth-context";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Home() {
   const [dishes, setDishes] = useState<FilteredDish[]>(initialDishes);
@@ -20,6 +31,7 @@ export default function Home() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
 
   const handleFilter = async (restrictions: string) => {
     if (!restrictions) {
@@ -85,8 +97,17 @@ export default function Home() {
   };
   
   const handlePlaceOrder = async () => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to place an order.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
-      const result = await placeOrder(cartItems);
+      const result = await placeOrder(cartItems, user.uid);
       if (result.success) {
         toast({
           title: "Order Placed!",
@@ -132,7 +153,7 @@ export default function Home() {
             Find the perfect meal that meets your dietary needs.
           </p>
         </div>
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end items-center gap-4">
           <Button
             variant="outline"
             size="icon"
@@ -146,6 +167,37 @@ export default function Home() {
               </span>
             )}
           </Button>
+          {user ? (
+             <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={user.photoURL ?? ''} alt={user.displayName ?? 'User'} />
+                    <AvatarFallback>{user.email?.[0].toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.displayName}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={signOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild>
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
         </div>
       </header>
       
@@ -166,7 +218,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8">
           {isLoading
-            ? Array.from({ length: 8 }).map((_, i) => (
+            ? Array.from({ length: 12 }).map((_, i) => (
                 <div key={i} className="flex flex-col space-y-3">
                   <Skeleton className="h-[225px] w-full rounded-xl" />
                   <div className="space-y-2">
