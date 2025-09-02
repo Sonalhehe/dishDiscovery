@@ -4,17 +4,17 @@ import { getFirestore, Firestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDPp_T2a4n-52a-rMvGk71-yS0gDqJ-33Y",
-  authDomain: "dev-prototyper-231221.firebaseapp.com",
-  projectId: "dev-prototyper-231221",
-  storageBucket: "dev-prototyper-231221.appspot.com",
-  messagingSenderId: "329188812676",
-  appId: "1:329188812676:web:65f7c35f6a15757d5942ea"
+  "projectId": "dish-discovery-j2yrr",
+  "appId": "1:711551915837:web:16f78bc3ad52fa624c1754",
+  "storageBucket": "dish-discovery-j2yrr.firebasestorage.app",
+  "apiKey": "AIzaSyDyE0-vHvbStTfboUI2O0s6_uMe8Ckspn8",
+  "authDomain": "dish-discovery-j2yrr.firebaseapp.com",
+  "messagingSenderId": "711551915837"
 };
 
-// Initialize Firebase for SSR
+// Initialize Firebase
 let app: FirebaseApp;
-if (getApps().length === 0) {
+if (!getApps().length) {
   app = initializeApp(firebaseConfig);
 } else {
   app = getApp();
