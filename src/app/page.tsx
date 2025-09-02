@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   const [dishes, setDishes] = useState<FilteredDish[]>(initialDishes);
@@ -154,6 +155,7 @@ export default function Home() {
           </p>
         </div>
         <div className="flex-1 flex justify-end items-center gap-4">
+          <ThemeToggle />
           <Button
             variant="outline"
             size="icon"
