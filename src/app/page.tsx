@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { DishCard } from "@/components/dish-card";
 import { Icons } from "@/components/icons";
 import { MenuFilters } from "@/components/menu-filters";
@@ -25,6 +26,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/theme-toggle";
+
+const HeroSection = () => (
+  <section className="relative w-full h-[400px] rounded-xl overflow-hidden mb-12">
+    <Image
+      src="https://picsum.photos/1200/400"
+      alt="Delicious food spread"
+      fill
+      className="object-cover"
+      data-ai-hint="food spread"
+    />
+    <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center text-white p-4">
+      <h2 className="text-4xl md:text-6xl font-bold font-headline tracking-tight">Discover Your Perfect Dish</h2>
+      <p className="mt-4 text-lg md:text-xl max-w-2xl">
+        From classic comfort food to exotic new flavors, find meals that delight your taste buds and fit your lifestyle.
+      </p>
+    </div>
+  </section>
+);
+
 
 export default function Home() {
   const [dishes, setDishes] = useState<FilteredDish[]>(initialDishes);
@@ -212,6 +232,7 @@ export default function Home() {
       />
 
       <main>
+        <HeroSection />
         <MenuFilters
           onFilter={handleFilter}
           onClear={clearFilters}

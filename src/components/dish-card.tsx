@@ -53,7 +53,7 @@ export function DishCard({ dish, onAddToCart }: DishCardProps) {
             variant="secondary"
             className="text-lg font-semibold bg-amber-100 text-amber-800 border-amber-300"
           >
-            ${dish.price.toFixed(2)}
+            ₹{dish.price.toFixed(2)}
           </Badge>
           {isUnsuitable && dish.problematicIngredients && (
             <div className="flex items-center gap-2 text-sm text-destructive font-medium p-2 rounded-md bg-red-50 border border-red-200">
