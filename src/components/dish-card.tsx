@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AlertTriangle, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 interface DishCardProps {
   dish: FilteredDish;
@@ -19,13 +19,10 @@ interface DishCardProps {
 }
 
 export function DishCard({ dish, onAddToCart }: DishCardProps) {
-  const isUnsuitable = dish.isSuitable === false;
-
   return (
     <Card
       className={cn(
-        "flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1",
-        isUnsuitable && "bg-muted/50 opacity-60 grayscale"
+        "flex flex-col overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
       )}
     >
       <CardHeader className="p-0">
@@ -55,16 +52,8 @@ export function DishCard({ dish, onAddToCart }: DishCardProps) {
           >
             ₹{dish.price.toFixed(2)}
           </Badge>
-          {isUnsuitable && dish.problematicIngredients && (
-            <div className="flex items-center gap-2 text-sm text-destructive font-medium p-2 rounded-md bg-red-50 border border-red-200">
-              <AlertTriangle className="h-4 w-4 shrink-0" />
-              <span className="truncate">
-                May contain: {dish.problematicIngredients}
-              </span>
-            </div>
-          )}
         </div>
-        <Button onClick={onAddToCart} disabled={isUnsuitable}>
+        <Button onClick={onAddToCart}>
           <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
         </Button>
       </CardFooter>

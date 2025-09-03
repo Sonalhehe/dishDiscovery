@@ -5,11 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { DishCard } from "@/components/dish-card";
 import { Icons } from "@/components/icons";
-import { MenuFilters } from "@/components/menu-filters";
 import { Skeleton } from "@/components/ui/skeleton";
 import { initialDishes } from "@/lib/dishes";
 import type { FilteredDish, CartItem } from "@/types";
-import { filterMenuItems } from "@/ai/flows/filter-menu-items-by-dietary-restrictions";
 import { CartSheet } from "@/components/cart-sheet";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, LogOut } from "lucide-react";
@@ -47,46 +45,11 @@ const HeroSection = () => (
 
 
 export default function Home() {
-  const [dishes, setDishes] = useState<FilteredDish[]>(initialDishes);
-  const [isLoading, setIsLoading] = useState(false);
+  const [dishes] = useState<FilteredDish[]>(initialDishes);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { toast } = useToast();
   const { user, signOut } = useAuth();
-
-  const handleFilter = async (restrictions: string) => {
-    if (!restrictions) {
-      setDishes(initialDishes);
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const promises = initialDishes.map((dish) =>
-        filterMenuItems({
-          dishDescription: dish.description,
-          dietaryRestrictions: restrictions,
-        }).then((result) => ({ ...dish, ...result }))
-      );
-
-      const results = await Promise.all(promises);
-      setDishes(results);
-    } catch (error) {
-      console.error("Failed to filter dishes:", error);
-      toast({
-        title: "Error",
-        description: "Failed to filter dishes. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const clearFilters = () => {
-    setDishes(initialDishes);
-  };
 
   const addToCart = (dish: FilteredDish) => {
     setCartItems((prevItems) => {
@@ -233,30 +196,15 @@ export default function Home() {
 
       <main>
         <HeroSection />
-        <MenuFilters
-          onFilter={handleFilter}
-          onClear={clearFilters}
-          isLoading={isLoading}
-        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8">
-          {isLoading
-            ? Array.from({ length: 16 }).map((_, i) => (
-                <div key={i} className="flex flex-col space-y-3">
-                  <Skeleton className="h-[225px] w-full rounded-xl" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-3/4" />
-                    <Skeleton className="h-4 w-1/2" />
-                  </div>
-                </div>
-              ))
-            : dishes.map((dish) => (
-                <DishCard
-                  key={dish.id}
-                  dish={dish}
-                  onAddToCart={() => addToCart(dish)}
-                />
-              ))}
+          {dishes.map((dish) => (
+            <DishCard
+              key={dish.id}
+              dish={dish}
+              onAddToCart={() => addToCart(dish)}
+            />
+          ))}
         </div>
       </main>
     </div>
