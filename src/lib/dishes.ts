@@ -38,9 +38,9 @@ export const initialDishes: Dish[] = [
   },
   {
     id: 6,
-    name: "Beef Burger",
+    name: "Veg Burger",
     price: 550,
-    description: "Juicy beef patty on a brioche bun with lettuce, tomato, and our special sauce. Served with fries. Contains gluten and dairy (in bun and sauce).",
+    description: "Juicy Veg patty on a brioche bun with lettuce, tomato, and our special sauce. Served with fries. Contains gluten and dairy (in bun and sauce).",
     image: "https://picsum.photos/id/835/600/400",
   },
   {
