@@ -16,7 +16,7 @@ Dish Discovery is a web application designed to help users explore, discover, an
 
 ## 🚀 Tech Stack
 
-* **Frontend**: HTML, CSS, JavaScript (React recommended if you’re using it)
+* **Frontend**: NextJs
 * **Backend**: Firebase
 * **Database**: Firebase-Firestore
 
