@@ -1,7 +1,3 @@
-Here’s a polished **README.md** draft for your Dish Discovery website:
-
----
-
 # 🍽️ Dish Discovery
 
 Dish Discovery is a web application designed to help users explore, discover, and learn about a wide variety of dishes from different cuisines around the world. Whether you're a foodie, a home cook, or someone simply curious about global flavors, this platform makes it easy to find and enjoy new meals.
@@ -21,9 +17,8 @@ Dish Discovery is a web application designed to help users explore, discover, an
 ## 🚀 Tech Stack
 
 * **Frontend**: HTML, CSS, JavaScript (React recommended if you’re using it)
-* **Backend**: Node.js / Express (or mention if API based)
-* **Database**: MongoDB / MySQL / PostgreSQL (whichever you are using)
-* **API**: (If you are using any public API for recipes/dishes, mention here)
+* **Backend**: Firebase
+* **Database**: Firebase-Firestore
 
 ---
 
